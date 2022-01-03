@@ -20,9 +20,12 @@ ____
 
     1. Созданы JSON для добавления образа Packer ubuntu16.json, variables.json.example, key.json.example ( настоящий файл с переменными и ключом , добавлен в .gitignore)
     1.1 Проверяем с помощью 
-    ``` packer validate ubuntu16.json ```
+    ``` packer validate ubuntu16.json 
+    ```
     1.2 Собираем командой 
-    ``` packer build ubuntu16.json ```
+    ``` packer build ubuntu16.json 
+    ```
+    
     
     2. На основе ранее созданого образа с помощью файла ubuntu16.json развернут instance через GUI Yandex;
     3. Доставляем необходимые пакеты для запуска приложения
