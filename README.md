@@ -1,5 +1,56 @@
 # stavdnb_infra
 stavdnb Infra repository
+##HW-07 Packer
+____
+
+## В ДЗ сделано:
+____
+
+
+    1. Сделан образ ubuntu 16-04-ltc с помощью Packer через консоль Yandex CLI;
+    2. Сделан образ задеплоенного в него приложения Reddit на основе ранее созданного образа ubuntu, с автоподнятием сервиса.
+    3. Созданы bash-скрипты для автоматического развертывания ВМ через консоль Yandex CLI;
+
+
+## Основное задание
+
+____
+
+
+
+    1. Созданы JSON для добавления образа Packer ubuntu16.json, variables.json.example, key.json.example ( настоящий файл с переменными и ключом , добавлен в .gitignore)
+    1.1 Проверяем с помощью 
+    packer validate ubuntu16.json 
+    
+    1.2 Собираем командой 
+    packer build ubuntu16.json 
+    
+    2. На основе ранее созданого образа с помощью файла ubuntu16.json развернут instance через GUI Yandex;
+    3. Доставляем необходимые пакеты для запуска приложения
+    
+    sudo apt-get update
+    sudo apt-get install -y git
+    git clone -b monolith https://github.com/express42/reddit.git
+    cd reddit && bundle install
+    puma -d
+    
+    4. Проверяем в браузере http://ip.address:9292
+   
+   
+
+
+
+
+
+## Дополнительное задание
+
+____
+    
+    1. Берем полученный образ с ubuntu и установленными в нее ruby и mongodb , и используем его id в качестве базового image . C помощью provisioners доставляем на него пакеты с приложением , готовый конфиг immutable.json проверяем с помощью validate   
+    2. В папку packer/files добавлен файл reddit.service запускающий puma при старте системы
+    3. Скрипт создания ВМ create-reddit-vm.sh , добавлены права на исполнение ( chmod +x name_file.sh)
+    
+    
 ##HW-06 cloud-testapp
 ____
 

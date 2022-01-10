@@ -1,0 +1,5 @@
+{
+	"key": "./key.json.example",
+	"folder_id": "id_folder",
+	"image": "ubuntu-1604-lts"
+}
