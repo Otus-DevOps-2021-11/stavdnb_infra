@@ -1,5 +1,5 @@
 {
   "folder_id": "folder_id",
-  "key_file": "key.json.example",
+  "key_file": "./key.json.example",
   "image_family": "image_family"
 }
