@@ -1,5 +1,45 @@
 # stavdnb_infra
 stavdnb Infra repository
+##HW-09 terraform-2
+____
+
+## В ДЗ сделано:
+____
+
+
+    1. Выполнены основные условия по ДЗ;
+    
+    
+    2. С помощью Packer созданы образы reddit-app-base,reddit-db-base; 
+    ```
+    packer build -var-file=/Users/stavdnb/git/stavdnb_infra/packer/variables.json app.json
+    
+    packer build -var-file=/Users/stavdnb/git/stavdnb_infra/packer/variables.json db.json
+    ```
+    Чтобы использовать их , в модулях необходимо указать их получившийся image_name. 
+
+    3. В модуле app публикуем переменную  { DB_IPADDR = var.db_ipaddr } и передаем в нее IP адрес сервера mongodb. 
+
+
+    4. Проверяем и причесываем все конфиги **terraform fmt**, далее получаем модули terraform get 
+
+    5. Описываем бэкэнд в ранее созданный бакет, и активируем provisioner в  **main.tf**
+    ```
+    resource "null_resource" "app" {
+      count = var.enable_provision ? 1 : 0
+      triggers = {
+        cluster_instance_ids = yandex_compute_instance.app.id
+      }
+  ```
+По умолчанию устанавливаем значение TRUE, при желании можно менять.
+```
+variable enable_provision {
+  description = "Enable provision"
+  default     = true
+
+```
+
+
 ##HW-08 terraform-1
 ____
 
