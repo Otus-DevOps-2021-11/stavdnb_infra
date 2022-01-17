@@ -8,5 +8,3 @@ service_account_key_file = "key.json"
 private_key_path = "~/.ssh/appuser"
 bucket_name              = "otus-bucket"
 enable_provision         = true
-app_disk_image = "reddit-app-base-1642406749"
-db_disk_image = "reddit-db-base-1642406416"
