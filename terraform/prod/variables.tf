@@ -13,9 +13,6 @@ variable public_key_path {
   # Описание переменной
   description = "Path to the public key used for ssh access"
 }
-variable image_id {
-  description = "Disk image"
-}
 variable subnet_id {
   description = "Subnet"
 }
@@ -32,4 +29,25 @@ variable region_id {
 variable count_of_instances {
   description = "Count of instances"
   default     = 1
+}
+variable app_disk_image {
+  description = "Disk image for reddit app"
+  default     = "reddit-app-base"
+}
+variable db_disk_image {
+  description = "Disk image for reddit db"
+  default     = "reddit-db-base"
+}
+variable bucket_name {
+  description = "Yandex bucket name"
+}
+variable access_key {
+  description = "Key_id for yandex s3"
+}
+variable secret_key {
+  description = "Secret for yandex s3"
+}
+variable enable_provision {
+  description = "Enable provision"
+  default     = true
 }
