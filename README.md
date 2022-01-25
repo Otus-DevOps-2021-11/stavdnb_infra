@@ -1,5 +1,24 @@
 # stavdnb_infra
 stavdnb Infra repository
+##HW-10 ansible-1
+____
+
+## В ДЗ сделано:
+____
+
+    1. При повторном использовании ansible-playbook , мы увидели были ли проведены изменения.
+    ```
+    PLAY RECAP ****************************************************************************************************************
+appserver                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
+    2. Для задания со * установлена s3cmd для работы с Yandex Object Storage, jq для того чтобы распарсить полученные с файла terraform.tfstate значения
+    2.1.Для настройки используем 
+https://cloud.yandex.ru/docs/storage/tools/s3cmd
+
+    3. Упаковываем в скрипт ,делаем исполняемым  и запускаем. 
+    3.1. меняем в ansible.cfg строку inventory на наш inventory.json .
+
+    
 ##HW-09 terraform-2
 ____
 
