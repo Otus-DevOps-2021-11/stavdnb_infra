@@ -1,5 +1,5 @@
 ---
-- name: configure MongoDB
+- name: configure mongodb
   hosts: db
   tags: db-tag
   become: true
@@ -27,13 +27,13 @@
   apt: name=git update_cache=yes state=latest
   tags: app-tag
   tasks:
-    - name: add unit file for Puma
+    - name: add unit file for puma
       copy:
         src: files/puma.service
         dest: /etc/systemd/system/puma.service
       notify: reload puma
 
-    - name: add config for DB connection
+    - name: add config for db connection
       template:
         src: templates/db_config.j2
         dest: /home/ubuntu/db_config

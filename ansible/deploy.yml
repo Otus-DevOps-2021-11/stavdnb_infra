@@ -1,4 +1,4 @@
-- name: deploy App
+- name: deploy app
   hosts: app
   tags: deploy-tag
   tasks:

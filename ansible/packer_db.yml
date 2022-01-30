@@ -1,5 +1,5 @@
 ---
-- name: install MongoDB 3.2
+- name: install mongodb 3.2
   hosts: all
   become: true
   tasks:

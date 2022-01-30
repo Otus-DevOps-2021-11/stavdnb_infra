@@ -1,7 +1,7 @@
-- name: Clone
+- name: clone
   hosts: app
   tasks:
-    - name: Clone repo
+    - name: clone repo
       git:
         repo: https://github.com/express42/reddit.git
         dest: /home/ubuntu/reddit
