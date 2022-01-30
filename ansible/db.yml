@@ -1,10 +1,11 @@
-- name: configure mongodb
+- name: Configure MongoDB
   hosts: db
+  tags: db-tag
   become: true
   vars:
     mongo_bind_ip: 0.0.0.0
   tasks:
-    - name: change mongo config file
+    - name: Change mongo config file
       template:
         src: templates/mongod.conf.j2
         dest: /etc/mongod.conf

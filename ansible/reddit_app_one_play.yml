@@ -1,56 +1,79 @@
 ---
-- name: configure hosts & deploy application # <-- Словесное описание сценария(name)
-  hosts: all # <-- Для каких хостов будут выполняться описанные ниже таски (hosts)
-  #debugger: on_failed
+- name: Configure hosts & deploy application
+  hosts: all
   vars:
     mongo_bind_ip: 0.0.0.0 # <-- Переменная задается в блоке vars
     db_host: 10.128.0.4
-  tasks: # <-- Блок тасков (заданий), которые будут выполняться для данных хостов
-    - name: change mongo config file
-      become: true # <-- Выполнить задание от root
+  tasks:
+    - name: Change mongo config file
+      become: true
       template:
-        src: templates/mongod.conf.j2 # <-- Путь до локального файла-шаблона
-        dest: /etc/mongod.conf # <-- Путь на удаленном хосте
-        mode: 0644 # <-- Права на файл, которые нужно установить
-      tags: db-tag
+        src: templates/mongod.conf.j2
+        dest: /etc/mongod.conf
+        mode: 0644
+      tags: db-tag # <-- Список тэгов для задачи
       notify: restart mongod
-    - name: add unit file for puma
+
+    - name: Add unit file for Puma
       become: true
       copy:
         src: files/puma.service
         dest: /etc/systemd/system/puma.service
       tags: app-tag
       notify: reload puma
-    - name: enable puma
-      become: true
-      systemd: name=puma enabled=yes
-      tags: app-tag
-    - name: add config for db connection
+
+    - name: Add config for DB connection
       template:
         src: templates/db_config.j2
         dest: /home/ubuntu/db_config
       tags: app-tag
-    - name: install git
+
+    - name: enable puma
       become: true
-      apt: name=git update_cache=yes state=latest
-      tags: git-tag
-    - name: fetch the latest version of application code
+      systemd: name=puma enabled=yes
+      tags: app-tag
+
+    - name: install git and ruby
+      become: yes
+      become_user: root
+      become_method: sudo
+      apt:
+        update_cache: yes
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - git
+        - ruby-full
+        - ruby-bundler
+        - build-essential
+      tags: deploy-tag
+
+    - name: Fetch the latest version of application code
+      become: yes
+      become_user: root
+      become_method: sudo
       git:
-        repo: https://github.com/express42/reddit.git
+        repo: 'https://github.com/express42/reddit.git'
         dest: /home/ubuntu/reddit
         version: monolith # <-- Указываем нужную ветку
       tags: deploy-tag
       notify: reload puma
-    - name: bundle install
+
+    - name: Bundle install
+      become: yes
+      become_user: root
+      become_method: sudo
       bundler:
         state: present
-        chdir: /home/ubuntu/reddit # <-- В какой директории выполнить команду bundle
+        chdir: /home/ubuntu/reddit # <-- В какой директории выполнить команду bundle
       tags: deploy-tag
 
   handlers: # <-- Добавим блок handlers и задачу
     - name: restart mongod
       become: true
       service: name=mongod state=restarted
+
     - name: reload puma
       become: true
       systemd: name=puma state=restarted
+      
