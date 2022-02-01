@@ -1,5 +1,42 @@
 # stavdnb_infra
 stavdnb Infra repository
+packer build -var-file=/Users/stavdnb/git/stavdnb_infra/packer/variables.json packer/app.json
+
+##HW-11 ansible-2
+____
+
+## В ДЗ сделано:
+____
+
+    1. Были проверены различные способы сборки приложения с помощью плэйбуков;
+    1.1. Так я использовал образ базовый , пришлось доставлять пакеты с помощью apt
+    ```  
+    - name: Install git
+      become: true
+      apt: name=git update_cache=yes state=latest
+      tags: git-tag
+    ```
+    2. Заменив provisioners с shell на ansible , для сборки образа необходимо запускать его с корня репозитория, т.к. мы указали путь ansible/*.yml  
+    ```
+    packer build -var-file=/Users/stavdnb/git/stavdnb_infra/packer/variables.json packer/app.json
+    ```
+    
+    3. Воспользоваться преимуществами site.yml мне удалось, только после предварительного применения deploy.yml app.yml так как site.yml --check при проверке не видит установленного puma.service что и логично ведь для его связи его нужно скопировать из репозитория, и нужен предварительный развернутый репо reddit
+    4. Задание со * , Дополнил действующий файл inventory.sh , теперь если запускать его с ключом --host , IP прописываются в hostvars , также для удобства добавил вывод в json локальный IP БД. YC plugin не стал даже после того как почитал отзывы https://cloud.yandex.ru/features/798
+
+    ```
+     ~/git/stavdnb_infra/ansible/ [ansible-2*] ./inventory.sh --host           
+{
+  "_meta": {
+    "hostvars": {
+      "62.84.126.118": {},
+      "51.250.12.113": {}
+    }
+  }
+}
+```
+
+
 ##HW-10 ansible-1
 ____
 

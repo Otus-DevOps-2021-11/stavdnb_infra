@@ -5,4 +5,5 @@ variables.json
 *.tfvars
 .terraform/
 key.json
-../.DS_Store
+../DS_Store
+*.retry

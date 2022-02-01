@@ -1,0 +1,78 @@
+---
+- name: Configure hosts & deploy application
+  hosts: all
+  vars:
+    mongo_bind_ip: 0.0.0.0 # <-- Переменная задается в блоке vars
+    db_host: 10.128.0.4
+  tasks:
+    - name: Change mongo config file
+      become: true
+      template:
+        src: templates/mongod.conf.j2
+        dest: /etc/mongod.conf
+        mode: 0644
+      tags: db-tag # <-- Список тэгов для задачи
+      notify: restart mongod
+
+    - name: Add unit file for Puma
+      become: true
+      copy:
+        src: files/puma.service
+        dest: /etc/systemd/system/puma.service
+      tags: app-tag
+      notify: reload puma
+
+    - name: Add config for DB connection
+      template:
+        src: templates/db_config.j2
+        dest: /home/ubuntu/db_config
+      tags: app-tag
+
+    - name: enable puma
+      become: true
+      systemd: name=puma enabled=yes
+      tags: app-tag
+
+    - name: install git and ruby
+      become: yes
+      become_user: root
+      become_method: sudo
+      apt:
+        update_cache: yes
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - git
+        - ruby-full
+        - ruby-bundler
+        - build-essential
+      tags: deploy-tag
+
+    - name: Fetch the latest version of application code
+      become: yes
+      become_user: root
+      become_method: sudo
+      git:
+        repo: 'https://github.com/express42/reddit.git'
+        dest: /home/ubuntu/reddit
+        version: monolith # <-- Указываем нужную ветку
+      tags: deploy-tag
+      notify: reload puma
+
+    - name: Bundle install
+      become: yes
+      become_user: root
+      become_method: sudo
+      bundler:
+        state: present
+        chdir: /home/ubuntu/reddit # <-- В какой директории выполнить команду bundle
+      tags: deploy-tag
+
+  handlers: # <-- Добавим блок handlers и задачу
+    - name: restart mongod
+      become: true
+      service: name=mongod state=restarted
+
+    - name: reload puma
+      become: true
+      systemd: name=puma state=restarted

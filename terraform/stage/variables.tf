@@ -49,5 +49,5 @@ variable secret_key {
 }
 variable enable_provision {
   description = "Enable provision"
-  default     = true
+  default     = false
 }
