@@ -1,6 +1,42 @@
 # stavdnb_infra
 stavdnb Infra repository
 packer build -var-file=/Users/stavdnb/git/stavdnb_infra/packer/variables.json packer/app.json
+##HW-12 ansible-3
+____
+
+## В ДЗ сделано:
+____
+
+    1. Создание и добавление ролей, работа с ansible galaxy , для использования готовых ролей
+    2. Была переделана dynamic inventory добавлена переменная с внутр БД;
+    3. Деплой приложения с nginx , с конф. ответа на 80 порту
+ 1. ```
+ 2. ~/ curl -I http://51.250.0.37:80
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 04 Feb 2022 00:30:02 GMT
+Content-Type: text/html;charset=utf-8
+Content-Length: 1861
+Connection: keep-alive
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+  ```
+    1. Проверено ширование при помощи Vault 
+    2. Создан плейбук для создания пользователей
+    ```
+    "_meta": {
+         "hostvars": {
+             "appserver": {
+                 "ansible_host": "51.250.0.37"
+             },
+             "dbserver": {
+                 "ansible_host": "51.250.12.181"
+             },
+             "dbserver2": {
+                 "ansible_host": "10.128.0.10"
+             }
+    ```
 
 ##HW-11 ansible-2
 ____
