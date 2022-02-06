@@ -8,3 +8,9 @@ key.json
 ../DS_Store
 *.retry
 jdauphant.nginx
+.vagrant/
+*.log
+*.pyc
+.molecule 
+.cache 
+.pytest_cache
