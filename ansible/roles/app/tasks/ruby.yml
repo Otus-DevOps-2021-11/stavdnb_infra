@@ -1,0 +1,11 @@
+---
+   - name: Update repositories cache and install packages
+     apt:
+       update_cache: yes
+       pkg:
+         - git
+         - ruby-full
+         - ruby-bundler
+         - build-essential
+         - python3-pip
+       state: present

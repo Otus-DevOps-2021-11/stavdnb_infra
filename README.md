@@ -1,6 +1,32 @@
 # stavdnb_infra
 stavdnb Infra repository
 packer build -var-file=/Users/stavdnb/git/stavdnb_infra/packer/variables.json packer/app.json
+##HW-13 ansible-4
+____
+
+## В ДЗ сделано:
+____
+  1. Установлено окружение и зависимости для работы с molecule
+  2. Параметризированы шаблоны для пакера
+  3. Проведены тестирование на создаваемом инстансе от молекулы
+  4. Для корректной работы тестов пришлось повышать права
+
+### notes
+    ubuntu/xenial64 из коробки ставится с пользователем vagrant
+
+чтобы зайти по ssh необходимо указать путь к ключу 
+
+```
+ssh -i .vagrant/machines/appserver/virtualbox/private_key vagrant@10.10.10.20
+```
+
+ для правильной работы molecule необхододима установка драйвера
+ https://molecule.readthedocs.io/en/latest/installation.html#install
+```
+python3 -m pip install --user molecule-vagrant
+```
+
+
 ##HW-12 ansible-3
 ____
 
